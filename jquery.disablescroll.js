@@ -20,7 +20,7 @@
             handleScrollbar: true,
             handleKeys : true,
             scrollEventKeys : [32, 33, 34, 35, 36, 37, 38, 39, 40],
-            scrollEvent: false // the callback to capture the scroll event
+            scrollEvent: false //the callback to capture the scroll event
         }, options);
 
         this.$container = $container;
