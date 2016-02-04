@@ -19,9 +19,10 @@
             handleWheel : true,
             handleScrollbar: true,
             handleKeys : true,
-            scrollEventKeys : [32, 33, 34, 35, 36, 37, 38, 39, 40]
+            scrollEventKeys : [32, 33, 34, 35, 36, 37, 38, 39, 40],
+            scrollEvent: false // the callback to capture the scroll event
         }, options);
-        
+
         this.$container = $container;
         this.$document = $(document);
         this.lockToScrollPos = [0, 0];
@@ -37,10 +38,12 @@
         if(t.opts.handleWheel) {
             t.$container.on(
                 "mousewheel.disablescroll DOMMouseScroll.disablescroll touchmove.disablescroll",
-                t._handleWheel
+                function(event){
+                    t._handleWheel(event);
+                }
             );
         }
-        
+
         if(t.opts.handleScrollbar) {
             t.lockToScrollPos = [
                 t.$container.scrollLeft(),
@@ -57,7 +60,7 @@
             });
         }
     };
-        
+
     proto.undo = function() {
         var t = this;
         t.$container.off(".disablescroll");
@@ -65,25 +68,43 @@
             t.$document.off(".disablescroll");
         }
     };
-    
+
     proto._handleWheel = function(event) {
         event.preventDefault();
+
+        var t  = this;
+        if(t.opts.scrollEvent){
+            t.opts.scrollEvent(event);
+        }
     };
-    
+
     proto._handleScrollbar = function() {
         this.$container.scrollLeft(this.lockToScrollPos[0]);
         this.$container.scrollTop(this.lockToScrollPos[1]);
+
+
+        var t  = this;
+        if(t.opts.scrollEvent){
+            t.opts.scrollEvent(event);
+        }
     };
-    
+
     proto._handleKeydown = function(event) {
         for (var i = 0; i < this.opts.scrollEventKeys.length; i++) {
             if (event.keyCode === this.opts.scrollEventKeys[i]) {
                 event.preventDefault();
+
+
+                var t  = this;
+                if(t.opts.scrollEvent){
+                    t.opts.scrollEvent(event);
+                }
+
                 return;
             }
         }
     };
-        
+
 
     // Plugin wrapper for object
     $.fn.disablescroll = function(method) {
