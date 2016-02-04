@@ -32,6 +32,17 @@ Example Usage
 
     });
 
+Example Usage 2
+---
+
+    var $window = $(window);
+
+    $window.disablescroll({
+        scrollEvent: function(event){
+            console.log('The scroll function has been disabled.');
+        }
+    });
+
 
 Options
 ---
@@ -48,6 +59,7 @@ handleWheel       | `true`                                     | Boolean indicat
 handleScrollbar   | `true`                                     | Boolean indicating whether to disable scroll bar dragging. Set to `false` if you need to modify the scroll position whilst scrolling is disabled.
 handleKeys        | `true`                                     | Boolean indicating whether to disable scrolling triggered by keypresses, e.g. the down button.
 scrollEventKeys   | `[32, 33, 34, 35, 36, 37, 38, 39, 40]`     | Array of scroll-related keycodes to disable during scroll. See below for reference.
+scrollEvent   | `false`     | The callback to capture the scroll event while the container is still disabled
 
 
 Keycode Reference
